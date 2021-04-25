@@ -5,8 +5,8 @@ export const prepareData = (filterParams,responseData) => {
     let filterData = [];
     const checkMissionPayload =  (payloads) => {
         const result = payloads.map(payload => {
-            const values = payload.customers.find(customer => customer.includes(filterParams.customerName))
-            return !!values
+            const customers = payload.customers.find(customer => customer.includes(filterParams.customerName))
+            return !!customers
         })
         return _.contains(result, true)
     }
@@ -21,7 +21,7 @@ export const prepareData = (filterParams,responseData) => {
                 payloads_count
             }
         })
-        .slice().sort((a, b) => b.flight_number - a.flight_number)
+        .slice().sort((a, b) => new Date(b.launch_date_utc).getTime() - new Date(a.launch_date_utc).getTime())
         .forEach( data => {
             const selectedParameters = {}
             Object.assign(selectedParameters, _.pick(data, ["flight_number", "mission_name", "payloads_count"]))
@@ -35,16 +35,19 @@ export const renderData = (filterData) => {
         let expected = [];
             filterData.forEach(mission => {
                 const data = `
-                          {
-                            "flight_number": ${mission.flight_number},
-                            "mission_name": ${mission.mission_name},
-                            "payloads_count": ${mission.payloads_count}
-                          }
-                          `
+        {
+            "flight_number": ${mission.flight_number},
+            "mission_name": ${mission.mission_name},
+            "payloads_count": ${mission.payloads_count}
+        }`
                 expected.push(data)
 
             });
-        mainContainer.innerHTML = expected;
+
+        mainContainer.innerHTML = `
+        [
+            ${expected}
+        ]`;
     })
 
 }
