@@ -1,9 +1,18 @@
-const _ = require('underscore')
+const _ = require('underscore');
+const $ =  require('jquery');
 
 export const prepareData = (responseData, filterParams) => {
     let filterData = [];
-   responseData
-        .filter(data => data.rocket.second_stage.payloads[0].customers.find( customer => customer.includes(filterParams.customerName)) && data.launch_year === filterParams.year.toString())
+    const checkMissionPayload =  (payloads) => {
+        const result = payloads.map(payload => {
+            const values = payload.customers.find(customer => customer.includes(filterParams.customerName))
+            return !!values
+        })
+        return _.contains(result, true)
+    }
+
+    responseData
+        .filter(data =>  data.launch_year === filterParams.year.toString() && checkMissionPayload(data.rocket.second_stage.payloads))
         .map(launch => {
             const payloads_count = launch.rocket.second_stage.payloads.length;
             return {
@@ -20,4 +29,13 @@ export const prepareData = (responseData, filterParams) => {
         })
     return filterData
 }
-export const renderData = () => {}
+export const renderData = (filterData) => {
+    $(document).ready(function () {
+        const mainContainer = document.getElementById("out");
+        const div = document.createElement("div");
+        div.innerHTML = JSON.stringify(filterData);
+        mainContainer.appendChild(div)
+        console.log(filterData)
+    })
+
+}
