@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const $ =  require('jquery');
 
-export const prepareData = (responseData, filterParams) => {
+export const prepareData = (filterParams,responseData) => {
     let filterData = [];
     const checkMissionPayload =  (payloads) => {
         const result = payloads.map(payload => {
@@ -32,10 +32,19 @@ export const prepareData = (responseData, filterParams) => {
 export const renderData = (filterData) => {
     $(document).ready(function () {
         const mainContainer = document.getElementById("out");
-        const div = document.createElement("div");
-        div.innerHTML = JSON.stringify(filterData);
-        mainContainer.appendChild(div)
-        console.log(filterData)
+        let expected = [];
+            filterData.forEach(mission => {
+                const data = `
+                          {
+                            "flight_number": ${mission.flight_number},
+                            "mission_name": ${mission.mission_name},
+                            "payloads_count": ${mission.payloads_count}
+                          }
+                          `
+                expected.push(data)
+
+            });
+        mainContainer.innerHTML = expected;
     })
 
 }

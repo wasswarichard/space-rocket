@@ -9,7 +9,7 @@ describe(`prepareData`, () => {
     ${2018} | ${'NASA'}
     ${2019} | ${'Iridium'}
   `(`consolidates the data correctly for year $year and customer $customerName`, ({year, customerName}) => {
-    expect(prepareData({year, customerName})(payload)).toMatchSnapshot()
+    expect(prepareData({year, customerName}, payload)).toMatchSnapshot()
   })
 })
 

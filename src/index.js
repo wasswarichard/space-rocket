@@ -7,5 +7,5 @@ const filterParams = {
 
 fetch('https://api.spacexdata.com/v3/launches/past')
     .then(response => response.json())
-    .then(data => prepareData(data, filterParams))
+    .then(data => prepareData(filterParams, data))
     .then(filteredData => renderData(filteredData))
