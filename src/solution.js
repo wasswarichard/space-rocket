@@ -43,7 +43,7 @@ export const renderData = (filterData) => {
             }`
                 expected.push(data)
             });
-            
+
         mainContainer.innerHTML = `
         [
             ${expected}
