@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const $ =  require('jquery');
+import _ from "underscore";
+import $ from "jquery";
 
 export const prepareData = (filterParams,responseData) => {
     let filterData = [];
