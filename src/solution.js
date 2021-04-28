@@ -22,9 +22,7 @@ export const prepareData = (filterParams,responseData) => {
             }
         })
         .slice().sort((a, b) => b.payloads_count - a.payloads_count || new Date(b.launch_date_utc).getTime() - new Date(a.launch_date_utc).getTime())
-        .forEach( data => {
-            filterData.push({..._.pick(data, ["flight_number", "mission_name", "payloads_count"])});
-        });
+        .forEach( data => filterData.push({..._.pick(data, ["flight_number", "mission_name", "payloads_count"])}));
     return filterData
 }
 export const renderData = (filterData) => {
