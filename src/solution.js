@@ -23,9 +23,7 @@ export const prepareData = (filterParams,responseData) => {
         })
         .slice().sort((a, b) => b.payloads_count - a.payloads_count || new Date(b.launch_date_utc).getTime() - new Date(a.launch_date_utc).getTime())
         .forEach( data => {
-            const selectedParameters = {}
-            Object.assign(selectedParameters, _.pick(data, ["flight_number", "mission_name", "payloads_count"]))
-            filterData.push(selectedParameters);
+            filterData.push({..._.pick(data, ["flight_number", "mission_name", "payloads_count"])});
         });
     return filterData
 }
